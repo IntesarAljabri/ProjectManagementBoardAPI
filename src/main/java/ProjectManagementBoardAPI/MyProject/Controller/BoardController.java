@@ -43,15 +43,32 @@ public class BoardController {
 
 
     // Update information about board
-    @PutMapping("/{id}")
-    public ResponseEntity<Object> updateBoard(@PathVariable Integer id, @RequestBody Board board) {
-        board.setId(id);
-        Board updatedBoard = boardService.updateBoard(board);
-
+    @PutMapping("/{id}/title")
+    public ResponseEntity<Object> updateBoardTitle(
+            @PathVariable Integer id,
+            @RequestBody String title
+    ) {
+        Board existingBoard = boardService.getBoardById(id);
+        if (existingBoard == null) {
+            return ResponseEntity.notFound().build();
+        }
+        existingBoard.setTitle(title);
+        Board updatedBoard = boardService.updateBoard(existingBoard);
         if (updatedBoard != null) {
             return ResponseEntity.ok(updatedBoard);
         }
         return ResponseEntity.notFound().build();
     }
+//    @PutMapping("/{id}")
+//    public ResponseEntity<Object> updateBoard(@PathVariable Integer id, @RequestBody Board board) {
+//        board.setId(id);
+//        Board updatedBoard = boardService.updateBoard(board);
+//
+//        if (updatedBoard != null) {
+//            return ResponseEntity.ok(updatedBoard);
+//        }
+//        return ResponseEntity.notFound().build();
+//    }
+
 }
 

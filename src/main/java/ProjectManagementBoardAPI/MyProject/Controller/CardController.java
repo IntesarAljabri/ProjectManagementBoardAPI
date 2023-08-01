@@ -2,7 +2,6 @@ package ProjectManagementBoardAPI.MyProject.Controller;
 
 import ProjectManagementBoardAPI.MyProject.Model.Board;
 import ProjectManagementBoardAPI.MyProject.Model.Card;
-import ProjectManagementBoardAPI.MyProject.Repository.CardRepository;
 import ProjectManagementBoardAPI.MyProject.Service.CardService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
