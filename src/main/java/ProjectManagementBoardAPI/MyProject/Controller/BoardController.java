@@ -3,6 +3,7 @@ package ProjectManagementBoardAPI.MyProject.Controller;
 import ProjectManagementBoardAPI.MyProject.Model.Board;
 import ProjectManagementBoardAPI.MyProject.Service.BoardService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -31,6 +32,13 @@ public class BoardController {
     @GetMapping(value = "getById")
     public Board getBoardById(Integer id) {
         return boardService.getBoardById(id);
+    }
+
+    //Delete Board
+    @DeleteMapping("/{id}")
+    public ResponseEntity<Object> deleteBoard(@PathVariable Integer id) {
+        boardService.deleteBoard(id);
+        return ResponseEntity.noContent().build();
     }
 
 
