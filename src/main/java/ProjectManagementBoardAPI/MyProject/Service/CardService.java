@@ -35,4 +35,26 @@ public class CardService {
         cardRepository.deleteById(id);
         return "Deleted  Successfully";
     }
+
+
+    // Update information about card
+    public Board updateCard(Card updateData) {
+        Card card = cardRepository.findById(updateData.getId()).orElse(null);
+        if (card != null) {
+            if (updateData.getId() != null) {
+                card.setId(updateData.getId());
+            }
+            if (updateData.getTitle() != null) {
+                card.setTitle(updateData.getTitle());
+            }
+            if (updateData.getDescription() != null) {
+                card.setTitle(updateData.getDescription());
+            }
+            if (updateData.getSection() != null) {
+                card.setTitle(updateData.getSection());
+            }
+            return cardRepository.save(card).getBoard();
+        }
+        return null;
+    }
 }
