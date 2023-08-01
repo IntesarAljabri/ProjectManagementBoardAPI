@@ -30,5 +30,9 @@ public class CardService {
         return cardRepository.findById(id).get();
     }
 
-    
+    //delete Card
+    public String deleteCard(Integer id) {
+        cardRepository.deleteById(id);
+        return "Deleted  Successfully";
+    }
 }

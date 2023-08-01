@@ -28,10 +28,6 @@ public class BoardService {
             return boardRepository.findById(id).get();
         }
 
-        public Board createBoard(Board board) {
-            return boardRepository.save(board);
-        }
-
         //delete Board
         public String deleteBoard(Integer id) {
             boardRepository.deleteById(id);
