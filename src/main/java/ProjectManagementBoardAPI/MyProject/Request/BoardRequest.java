@@ -1,6 +1,7 @@
 package ProjectManagementBoardAPI.MyProject.Request;
 
 import ProjectManagementBoardAPI.MyProject.Model.Board;
+import ProjectManagementBoardAPI.MyProject.Model.Card;
 import ProjectManagementBoardAPI.MyProject.Responce.BoardResponse;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -27,15 +28,15 @@ public class BoardRequest {
         board.setTitle(this.getTitle());
         return board;
     }
-
-    public static List<Board> convert(List<BoardRequest> requestList) {
-        List<Board> boards = new ArrayList<>();
+    
+    public static List<Card> convert(List<CardRequest> requestList) {
+        List<Card> cards = new ArrayList<>();
         if (!requestList.isEmpty()) {
-            for (BoardRequest boardRequest : requestList) {
-                boards.add((Board) convert((List<BoardRequest>) boardRequest));
+            for (CardRequest cardRequest : requestList) {
+                cards.add((Card) convert((List<CardRequest>) cardRequest));
             }
         }
-        return boards;
+        return cards;
     }
 
 }
