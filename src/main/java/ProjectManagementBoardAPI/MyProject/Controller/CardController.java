@@ -28,4 +28,11 @@ public class CardController {
     public List<Card> getAllCard() {
         return cardService.getAllCard();
     }
+
+    //Get Card by Id
+    @GetMapping(value = "getById")
+    public Card getCardById(Integer id) {
+        return cardService.getCardById(id);
+    }
+
 }
