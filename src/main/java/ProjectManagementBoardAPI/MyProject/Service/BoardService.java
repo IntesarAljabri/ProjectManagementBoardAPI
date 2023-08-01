@@ -38,6 +38,17 @@ public class BoardService {
         return "Deleted  Successfully";
     }
 
-   
+    //update information about Board
+    public Board updateBoard(Integer id, Board updateData){
+        Board board = boardRepository.findById(id).orElse(null);
+
+        if (board != null) {
+            board.setId(updateData.getId());
+            board.setTitle(updateData.getTitle());
+
+            return boardRepository.save(board);
+        }
+        return null;
+    }
 
 }
