@@ -27,6 +27,11 @@ public class BoardController {
         return boardService.getAllBoard();
     }
 
+    //Get Board by Id
+    @GetMapping(value = "getById")
+    public Board getBoardById(Integer id) {
+        return boardService.getBoardById(id);
+    }
 
-    
+
 }
