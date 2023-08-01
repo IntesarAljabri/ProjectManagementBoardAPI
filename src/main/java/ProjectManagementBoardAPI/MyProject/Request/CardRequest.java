@@ -7,6 +7,9 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+import java.util.ArrayList;
+import java.util.List;
+
 @Getter
 @Setter
 @NoArgsConstructor
@@ -27,5 +30,14 @@ public class CardRequest {
         return card;
     }
 
+    public static List<Card> convert(List<CardRequest> requestList) {
+        List<Card> cards = new ArrayList<>();
+        if (!requestList.isEmpty()) {
+            for (CardRequest cardRequest : requestList) {
+                cards.add((Card) convert((List<CardRequest>) cardRequest));
+            }
+        }
+        return cards;
+    }
 
 }

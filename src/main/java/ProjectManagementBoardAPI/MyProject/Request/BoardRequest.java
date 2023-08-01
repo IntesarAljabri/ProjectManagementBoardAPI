@@ -28,15 +28,16 @@ public class BoardRequest {
         board.setTitle(this.getTitle());
         return board;
     }
-    
-    public static List<Card> convert(List<CardRequest> requestList) {
-        List<Card> cards = new ArrayList<>();
+
+    public static List<Board> convert(List<BoardRequest> requestList) {
+        List<Board> boards = new ArrayList<>();
         if (!requestList.isEmpty()) {
-            for (CardRequest cardRequest : requestList) {
-                cards.add((Card) convert((List<CardRequest>) cardRequest));
+            for (BoardRequest boardRequest : requestList) {
+                boards.add((Board) convert((List<BoardRequest>) boardRequest));
             }
         }
-        return cards;
+        return boards;
     }
+
 
 }
