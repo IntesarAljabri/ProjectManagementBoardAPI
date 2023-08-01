@@ -3,10 +3,9 @@ package ProjectManagementBoardAPI.MyProject.Controller;
 import ProjectManagementBoardAPI.MyProject.Model.Board;
 import ProjectManagementBoardAPI.MyProject.Service.BoardService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 @RestController
 @RequestMapping("/boards")
@@ -21,4 +20,13 @@ public class BoardController {
         boardService.addBoard(board);
         return "Board added";
     }
+
+    //Get All Board
+    @GetMapping(value = "getAll")
+    public List<Board> getAllBoard() {
+        return boardService.getAllBoard();
+    }
+
+
+    
 }
