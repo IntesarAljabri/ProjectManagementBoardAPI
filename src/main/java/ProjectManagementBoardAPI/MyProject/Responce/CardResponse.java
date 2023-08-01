@@ -1,5 +1,7 @@
 package ProjectManagementBoardAPI.MyProject.Responce;
 
+import ProjectManagementBoardAPI.MyProject.Model.Board;
+import ProjectManagementBoardAPI.MyProject.Model.Card;
 import lombok.*;
 
 @Getter
@@ -13,4 +15,13 @@ public class CardResponse {
     String title;
     String description;
     String section;
+
+    public static CardResponse convertRequestToResponse(Card cardRequest) {
+        return CardResponse.builder()
+                .id(cardRequest.getId())
+                .title(cardRequest.getTitle())
+                .description(cardRequest.getDescription())
+                .section(cardRequest.getSection())
+                .build();
+    }
 }
