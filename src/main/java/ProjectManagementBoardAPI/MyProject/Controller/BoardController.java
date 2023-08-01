@@ -9,7 +9,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
-@RequestMapping("/boards")
+@RequestMapping("boards")
 public class BoardController {
 
     @Autowired
@@ -40,7 +40,6 @@ public class BoardController {
         boardService.deleteBoard(id);
         return "Deleted Successfully";
     }
-
 
     // Update information about board
     @PutMapping("/{id}/title")
