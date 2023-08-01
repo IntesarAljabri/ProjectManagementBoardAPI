@@ -23,5 +23,14 @@ public class BoardService {
     }
 
 
+    //get Board by id
+    public Board getBoardById(Integer id) {
+        return boardRepository.findById(id).get();
+    }
 
+    public Board createBoard(Board board) {
+        return boardRepository.save(board);
+    }
+
+ 
 }
