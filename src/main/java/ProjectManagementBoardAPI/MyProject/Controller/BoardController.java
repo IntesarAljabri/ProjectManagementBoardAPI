@@ -33,12 +33,12 @@ public class BoardController {
     public Board getBoardById(Integer id) {
         return boardService.getBoardById(id);
     }
-
-    //Delete Board
+    
+    // Delete board by id
     @DeleteMapping("/{id}")
-    public ResponseEntity<Object> deleteBoard(@PathVariable Integer id) {
+    public String deleteBoard(@PathVariable Integer id) {
         boardService.deleteBoard(id);
-        return ResponseEntity.noContent().build();
+        return "Deleted Successfully";
     }
 
 
