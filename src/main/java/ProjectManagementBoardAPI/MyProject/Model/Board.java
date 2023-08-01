@@ -14,7 +14,7 @@ public class Board {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id")
-    Integer Id;
+    Integer id;
     String title;
 
 }

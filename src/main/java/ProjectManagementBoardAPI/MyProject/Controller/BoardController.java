@@ -41,7 +41,7 @@ public class BoardController {
         return "Deleted Successfully";
     }
 
-    
+
     // Update information about board
     @PutMapping("/{id}")
     public ResponseEntity<Object> updateBoard(@PathVariable Integer id, @RequestBody Board board) {
