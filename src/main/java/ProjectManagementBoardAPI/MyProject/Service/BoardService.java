@@ -32,5 +32,12 @@ public class BoardService {
         return boardRepository.save(board);
     }
 
- 
+    //delete Board
+    public String deleteBoard(Integer id) {
+        boardRepository.deleteById(id);
+        return "Deleted  Successfully";
+    }
+
+   
+
 }
