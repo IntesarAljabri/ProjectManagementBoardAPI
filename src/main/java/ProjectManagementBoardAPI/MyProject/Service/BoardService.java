@@ -39,7 +39,7 @@ public class BoardService {
     }
 
     //update information about Board
-    public Board updateBoard(Integer id, Board updateData){
+    public Board updateBoard(Board updateData){
         Board board = boardRepository.findById(id).orElse(null);
 
         if (board != null) {

@@ -33,7 +33,7 @@ public class BoardController {
     public Board getBoardById(Integer id) {
         return boardService.getBoardById(id);
     }
-    
+
     // Delete board by id
     @DeleteMapping("/{id}")
     public String deleteBoard(@PathVariable Integer id) {
@@ -41,5 +41,17 @@ public class BoardController {
         return "Deleted Successfully";
     }
 
+    
+    // Update information about board
+    @PutMapping("/{id}")
+    public ResponseEntity<Object> updateBoard(@PathVariable Integer id, @RequestBody Board board) {
+        board.setId(id);
+        Board updatedBoard = boardService.updateBoard(board);
 
+        if (updatedBoard != null) {
+            return ResponseEntity.ok(updatedBoard);
+        }
+        return ResponseEntity.notFound().build();
+    }
 }
+
