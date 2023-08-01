@@ -24,4 +24,11 @@ public class CardService {
     public List<Card> getAllCard() {
         return cardRepository.findAll();
     }
+
+    //get Card by id
+    public Card getCardById(Integer id) {
+        return cardRepository.findById(id).get();
+    }
+
+    
 }
