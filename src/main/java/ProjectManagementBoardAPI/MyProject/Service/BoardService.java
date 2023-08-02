@@ -4,8 +4,8 @@ import ProjectManagementBoardAPI.MyProject.Model.Board;
 import ProjectManagementBoardAPI.MyProject.Repository.BoardRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-
 import java.util.List;
+import java.util.Map;
 
 @Service
 public class BoardService {
@@ -13,7 +13,13 @@ public class BoardService {
     @Autowired
     BoardRepository boardRepository;
 
-        //add new board
+    private final Map<Integer, String> columns = Map.of(
+            1, "To do",
+            2, "In progress",
+            3, "Done"
+    );
+
+        //Create new board
         public Board addBoard(Board board) {
             return boardRepository.save(board);
         }
