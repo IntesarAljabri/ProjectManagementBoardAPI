@@ -1,3 +1,32 @@
+/////////////////////////////////////////////////////////////////////
+/* Update title*/
+document.addEventListener("DOMContentLoaded", function() {
+    var updateForm = document.getElementById("updateForm");
+    var searchInput = document.getElementById("search");
+
+    updateForm.addEventListener("submit", function(event) {
+        event.preventDefault();
+
+        var newTitle = searchInput.value;
+
+        // Perform any necessary actions with the new title
+        // For example, you can update the section automatically
+        var newSection = updateSectionAutomatically(newTitle);
+
+        console.log("New Title:", newTitle);
+        console.log("New Section:", newSection);
+        
+        // Optionally, you can update the UI or perform other actions here
+    });
+
+    function updateSectionAutomatically(title) {
+        // Logic to determine and return the new section based on the title
+        // Replace this with your actual logic
+        return "Updated Section";
+    }
+});
+
+////////////////////////////////////////////////////////////////////////////
 /* get all Cards*/
 // Function to get all cards
 function getAllCards() {
@@ -23,7 +52,7 @@ getAllCards();
 
 
 ////////////////////////////////////////////////////////////////////////////////
-/* get Card by Id*/
+/* get Card by Id */
 
 // Function to get a card by ID
 function getCardById(cardId) {
@@ -83,7 +112,6 @@ createCard(); // Call the function to set up the form submission handling
 
 
 
-
 ///////////////////////////////////////////////////////////////////////////////////////////////////////
 /*Delete Card */
 
@@ -111,14 +139,12 @@ document.addEventListener("DOMContentLoaded", function() {
             section: sectionInput
         };
 
-        // Create a new card element and add it to the cards container
         var cardElement = document.createElement("div");
         cardElement.className = "card";
-        cardElement.id = "card-" + cardDropdown.value; // Unique ID for each card
+        cardElement.id = "card-" + cardDropdown.value;
         cardElement.innerHTML = "<h3>" + newCard.title + "</h3><p>" + newCard.description + "</p>";
         cardsContainer.appendChild(cardElement);
 
-        // Clear the form inputs
         addCardForm.reset();
     });
 
@@ -172,7 +198,7 @@ document.addEventListener("DOMContentLoaded", function() {
         addCardForm.reset();
     });
 
-    updateCardForm.addEventListener("submit", function(event) {
+    updateCardForm.addEventListener("Update", function(event) {
         event.preventDefault();
 
         var updateTitleInput = document.getElementById("updateTitle").value;
