@@ -3,6 +3,7 @@ package ProjectManagementBoardAPI.MyProject.Controller;
 import ProjectManagementBoardAPI.MyProject.Model.Board;
 import ProjectManagementBoardAPI.MyProject.Service.BoardService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -28,7 +29,7 @@ public class BoardController {
         return boardService.getAllBoard();
     }
 
-    //Get Board by Id
+    //Get Board by id
     @GetMapping(value = "getById")
     public Board getBoardById(Integer id) {
         return boardService.getBoardById(id);
@@ -48,26 +49,17 @@ public class BoardController {
             @RequestBody String title
     ) {
         Board existingBoard = boardService.getBoardById(id);
+
         if (existingBoard == null) {
             return ResponseEntity.notFound().build();
         }
         existingBoard.setTitle(title);
-        Board updatedBoard = boardService.updateBoard(existingBoard);
-        if (updatedBoard != null) {
-            return ResponseEntity.ok(updatedBoard);
+            Board updatedBoard = boardService.updateBoard(existingBoard);
+            if (updatedBoard != null) {
+                return ResponseEntity.ok(updatedBoard);
+            }
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
         }
-        return ResponseEntity.notFound().build();
     }
-//    @PutMapping("/{id}")
-//    public ResponseEntity<Object> updateBoard(@PathVariable Integer id, @RequestBody Board board) {
-//        board.setId(id);
-//        Board updatedBoard = boardService.updateBoard(board);
-//
-//        if (updatedBoard != null) {
-//            return ResponseEntity.ok(updatedBoard);
-//        }
-//        return ResponseEntity.notFound().build();
-//    }
 
-}
 

@@ -1,5 +1,4 @@
 package ProjectManagementBoardAPI.MyProject.Model;
-
 import jakarta.persistence.*;
 import lombok.Data;
 import lombok.Getter;

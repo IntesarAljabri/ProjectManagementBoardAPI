@@ -1,5 +1,4 @@
 package ProjectManagementBoardAPI.MyProject.Repository;
-
 import ProjectManagementBoardAPI.MyProject.Model.Board;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;

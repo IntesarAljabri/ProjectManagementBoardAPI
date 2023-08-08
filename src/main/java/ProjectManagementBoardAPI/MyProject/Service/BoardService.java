@@ -23,6 +23,8 @@ public class BoardService {
         public Board addBoard(Board board) {
             return boardRepository.save(board);
         }
+
+
         //get all Board
         public List<Board> getAllBoard() {
             return boardRepository.findAll();
@@ -34,11 +36,13 @@ public class BoardService {
             return boardRepository.findById(id).get();
         }
 
+
         //delete Board
         public String deleteBoard(Integer id) {
             boardRepository.deleteById(id);
             return "Deleted  Successfully";
         }
+
 
          // Update information about Board
          public Board updateBoard(Board updateData) {
@@ -50,10 +54,8 @@ public class BoardService {
                  if (updateData.getTitle() != null) {
                      board.setTitle(updateData.getTitle());
                  }
-
                  return boardRepository.save(board);
              }
              return null;
          }
-
 }

@@ -1,18 +1,12 @@
 package ProjectManagementBoardAPI.MyProject.Request;
 
 import ProjectManagementBoardAPI.MyProject.Model.Board;
-import ProjectManagementBoardAPI.MyProject.Model.Card;
-import ProjectManagementBoardAPI.MyProject.Responce.BoardResponse;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
-
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
-
-import static ProjectManagementBoardAPI.MyProject.Responce.BoardResponse.convertRequestToResponse;
 
 @Getter
 @Setter
