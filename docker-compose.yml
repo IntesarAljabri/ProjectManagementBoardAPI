@@ -1,6 +1,6 @@
 
 services:
-  gdb:
+  db:
     image: mysql:8.0.33
     ports:
       - "9090:3306"
@@ -16,7 +16,7 @@ services:
       - "8080:8080"
     restart: on-failure
     depends_on:
-      - gdb
+      - db
 
   ui:
     image: nginx

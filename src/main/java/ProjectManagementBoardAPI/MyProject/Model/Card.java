@@ -2,25 +2,31 @@ package ProjectManagementBoardAPI.MyProject.Model;
 import jakarta.persistence.*;
 import lombok.Data;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 @Setter
 @Getter
 @Entity
 @Data
-@Table(name = "Card")
+@NoArgsConstructor
+@Table(name = "cards")
 public class Card {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "id")
     Integer id;
     String title;
     String description;
-    String section;
+    Integer section;
 
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne
     @JoinColumn(name = "board_id", nullable = false)
-    private Board board;
+    Board board;
 
+
+    // Getter for section name
+    public String getSectionName() {
+        return Board.getSectionName(this.section);
+    }
 }

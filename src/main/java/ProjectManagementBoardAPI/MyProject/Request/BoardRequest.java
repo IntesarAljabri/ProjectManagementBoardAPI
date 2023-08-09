@@ -7,6 +7,7 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 @Getter
 @Setter
@@ -16,22 +17,16 @@ public class BoardRequest {
     Integer Id;
     String title;
 
-    public Board convertToBoard () {
+
+    private Map<Integer, String> columns;
+
+    public Board ConvertToBoard(){
         Board board = new Board();
+
         board.setId(this.getId());
         board.setTitle(this.getTitle());
+        board.setColumns(getColumns());
         return board;
     }
-
-    public static List<Board> convert(List<BoardRequest> requestList) {
-        List<Board> boards = new ArrayList<>();
-        if (!requestList.isEmpty()) {
-            for (BoardRequest boardRequest : requestList) {
-                boards.add((Board) convert((List<BoardRequest>) boardRequest));
-            }
-        }
-        return boards;
-    }
-
 
 }

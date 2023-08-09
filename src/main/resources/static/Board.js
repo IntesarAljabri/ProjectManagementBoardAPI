@@ -1,239 +1,306 @@
-/////////////////////////////////////////////////////////////////////
-/* Update title*/
-document.addEventListener("DOMContentLoaded", function() {
-    var updateForm = document.getElementById("updateForm");
-    var searchInput = document.getElementById("search");
 
-    updateForm.addEventListener("submit", function(event) {
-        event.preventDefault();
+ function getCards() {
+            var requestOptions = {
+                method: 'GET',
+                redirect: 'follow'
+            };
 
-        var newTitle = searchInput.value;
+            fetch("http://localhost:8080/api/boards/1/cards", requestOptions)
+                .then(response => response.json())
+                .then(parsedResponse => {
+                    parsedResponse.forEach(element => {
 
-        // Perform any necessary actions with the new title
-        // For example, you can update the section automatically
-        var newSection = updateSectionAutomatically(newTitle);
+                        let boardDiv;
 
-        console.log("New Title:", newTitle);
-        console.log("New Section:", newSection);
-        
-        // Optionally, you can update the UI or perform other actions here
-    });
+                        let sectionDiv = element.section;
 
-    function updateSectionAutomatically(title) {
-        // Logic to determine and return the new section based on the title
-        // Replace this with your actual logic
-        return "Updated Section";
-    }
-});
+                        if (sectionDiv === 1) {
+                            boardDiv = document.getElementById("ToDo");
+                        }
+                        else if (sectionDiv === 2) {
+                            boardDiv = document.getElementById("InProgress");
+                        }
+                        else {
+                            boardDiv = document.getElementById("Done");
+                        }
 
+                        let cardDiv = document.createElement("div");
+                        cardDiv.className = "card";
+                        
+
+                        let idDiv = document.createElement("div");
+                        idDiv.className = "card-id";
+                        idDiv.textContent = "#" + element.id; // Set the text content here
+
+                        let cardTitleDiv = document.createElement("div");
+                        cardTitleDiv.className = "card-title";
+                        cardTitleDiv.textContent = element.title; // Set the text content here
+
+                        let descriptionDiv = document.createElement("div");
+                        descriptionDiv.className = "card-description";
+                        descriptionDiv.textContent = element.description; // Set the text content here
+                        cardDiv.appendChild(idDiv);
+                        cardDiv.appendChild(cardTitleDiv);
+                        cardDiv.appendChild(descriptionDiv);
+                        cardDiv.appendChild(goCornner);
+
+                        boardDiv.appendChild(cardDiv);
+                    });
+                })
+                .catch(error => console.log('error', error));
+        }
+
+        window.onload = getCards;
+
+        function handledropdownUpdateItemClick(sectionValueUpadte) {
+            selectedSectionUpdate = sectionValueUpadte;
+            document.getElementById("dropdownMenuButtonUpdate").textContent = "Section " + selectedSectionUpdate; // Update the button text to reflect the selected section
+        }
+
+        let cardId;
+        fetch("http://localhost:8080/api/boards/1/cards")
+            .then((response) => { return response.json() })
+            .then((parsedResponse) => {
+                let dropdownMenuDiv = document.getElementById("dropdownMenu2");
+
+                parsedResponse.forEach((element) => {
+                    let dropdownItem = document.createElement("a");
+                    dropdownItem.className = "cardDropdown";
+                    dropdownItem.textContent = element.id;
+                    dropdownItem.setAttribute("data-id", element.id);
+                    dropdownMenuDiv.appendChild(dropdownItem);
+
+                    dropdownItem.addEventListener("click", function () {
+                        cardId = this.getAttribute("data-id");
+                        document.getElementById("dropdownMenuButton2").innerHTML = "Card " + cardId;
+                    });
+                });
+            })
+            .catch((error) => {
+                console.error("Error fetching data:", error);
+            });
+
+
+ ////////////////////////////////////////////////////////////////////////////////////////
+            function deleteData() {
+                const cardDropdown = document.getElementById("cardDropdown");
+                const selectedCardId = cardDropdown.value;
+            
+                const url = "http://localhost:8080/api/boards/1/cards/" + selectedCardId;
+            
+                const options = {
+                    method: 'DELETE',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    }
+                };
+            
+                fetch(url, options)
+                    .then(response => {
+                        if (response.ok) {
+                            console.log('Card deleted successfully!');
+                            location.reload();
+                        } else {
+                            console.error('Error deleting card:', response.statusText);
+                        }
+                    })
+                    .catch(error => {
+                        console.error('Error:', error);
+                    });
+            }
 ////////////////////////////////////////////////////////////////////////////
-/* get all Cards*/
-// Function to get all cards
-function getAllCards() {
-    fetch("http://localhost:8080/api/card/getAll")
-        .then(response => {
-            if (!response.ok) {
-                throw new Error("Failed to fetch cards");
+
+    function updateCard() {
+                let cardTitleUpdate = document.getElementById("updateTitle").value;
+                let cardDescriptionUpdate = document.getElementById("updateDescription").value;
+
+                var myHeaders = new Headers();
+                myHeaders.append("Content-Type", "application/json");
+
+                var raw = JSON.stringify({
+                    "title": cardTitleUpdate,
+                    "description": cardDescriptionUpdate,
+                    "section": selectedSectionUpdate
+                });
+
+                var requestOptions = {
+                    method: 'PUT',
+                    headers: myHeaders,
+                    body: raw,
+                    redirect: 'follow'
+                };
+
+                fetch("http://localhost:8080/api/boards/1/cards/" + cardId, requestOptions)
+                    .then(response => response.text())
+                    .then(result => {
+                        console.log(result);
+                        location.reload(); // Reload after update is complete
+                    })
+                    .catch(error => console.log('error', error));
             }
-            return response.json();
-        })
-        .then(cards => {
-            // Process the fetched cards
-            // You can iterate through the 'cards' array and do something with each card
-            console.log(cards);
-        })
-        .catch(error => {
-            console.error("Error:", error);
-        });
-}
 
-// Call the function to fetch all cards
-getAllCards();
+            // Example event listener for section updates
+            document.getElementById("section1-update").addEventListener("click", () => handledropdownUpdateItemClick(1));
+            document.getElementById("section2-update").addEventListener("click", () => handledropdownUpdateItemClick(2));
+            document.getElementById("section3-update").addEventListener("click", () => handledropdownUpdateItemClick(3));
+    function createCard() {
+            let Title = document.getElementById("enterTitleCard").value;
+            let cardDescription = document.getElementById("enterDescriptionCard").value;
 
+            // Validate cardTitle, cardDescription, and selectedSection here if needed
 
-////////////////////////////////////////////////////////////////////////////////
-/* get Card by Id */
+            var myHeaders = new Headers();
+            myHeaders.append("Content-Type", "application/json");
 
-// Function to get a card by ID
-function getCardById(cardId) {
-    fetch(`http://localhost:8080/api/card/getById?id=${cardId}`)
-        .then(response => {
-            if (!response.ok) {
-                throw new Error("Failed to fetch card");
-            }
-            return response.json();
-        })
-        .then(card => {
-            // Process the fetched card
-            console.log(card);
-        })
-        .catch(error => {
-            console.error("Error:", error);
-        });
-}
+            var raw = JSON.stringify({
+                "title": cardTitle,
+                "description": cardDescription,
+                "section": selectedSection
+            });
 
-const cardIdToFetch = 123; // Replace with the actual card ID you want to fetch
-getCardById(cardIdToFetch);
+            var requestOptions = {
+                method: 'POST',
+                headers: myHeaders,
+                body: raw,
+                redirect: 'follow'
+            };
 
-
-
-//////////////////////////////////////////////////////////////////////////
-/*Create new Card*/
-
-function createCard() {
-    var addCardForm = document.getElementById("addCardForm");
-    var cardsContainer = document.getElementById("cardsContainer");
-
-    addCardForm.addEventListener("submit", function(event) {
-        event.preventDefault();
-
-        var titleInput = document.getElementById("newTitle").value;
-        var descriptionInput = document.getElementById("newDescription").value;
-        var sectionInput = document.getElementById("newSection").value;
-
-        var newCard = {
-            title: titleInput,
-            description: descriptionInput,
-            section: sectionInput
-        };
-
-        // Create a new card element and add it to the cards container
-        var cardElement = document.createElement("div");
-        cardElement.className = "card";
-        cardElement.innerHTML = "<h3>" + newCard.title + "</h3><p>" + newCard.description + "</p>";
-        cardsContainer.appendChild(cardElement);
-
-        // Clear the form inputs
-        addCardForm.reset();
-    });
-}
-
-createCard(); // Call the function to set up the form submission handling
-
-
-
-///////////////////////////////////////////////////////////////////////////////////////////////////////
-/*Delete Card */
-
-function deleteCard(cardId) {
-    var cardToDelete = document.getElementById("card-" + cardId);
-    if (cardToDelete) {
-        cardToDelete.remove();
-    }
-}
-
-document.addEventListener("DOMContentLoaded", function() {
-    var addCardForm = document.getElementById("addCardForm");
-    var cardDropdown = document.getElementById("cardDropdown");
-
-    addCardForm.addEventListener("submit", function(event) {
-        event.preventDefault();
-
-        var titleInput = document.getElementById("newTitle").value;
-        var descriptionInput = document.getElementById("newDescription").value;
-        var sectionInput = document.getElementById("newSection").value;
-
-        var newCard = {
-            title: titleInput,
-            description: descriptionInput,
-            section: sectionInput
-        };
-
-        var cardElement = document.createElement("div");
-        cardElement.className = "card";
-        cardElement.id = "card-" + cardDropdown.value;
-        cardElement.innerHTML = "<h3>" + newCard.title + "</h3><p>" + newCard.description + "</p>";
-        cardsContainer.appendChild(cardElement);
-
-        addCardForm.reset();
-    });
-
-    addCardForm.addEventListener("reset", function() {
-        cardDropdown.selectedIndex = 0; // Reset dropdown selection on form reset
-    });
-
-    addCardForm.addEventListener("submit", function(event) {
-        event.preventDefault();
-
-        var selectedCardId = cardDropdown.value;
-        deleteCard(selectedCardId);
-        cardDropdown.selectedIndex = 0; // Reset dropdown selection after deleting
-
-        // Optionally, you can perform additional actions after deleting the card
-    });
-});
-
-
-
-/////////////////////////////////////////////////////////////////////////////////////////////
-/* Update card */
-
-
-document.addEventListener("DOMContentLoaded", function() {
-    var addCardForm = document.getElementById("addCardForm");
-    var updateCardForm = document.getElementById("updateCardForm");
-    var cardsContainer = document.getElementById("cardsContainer");
-
-    addCardForm.addEventListener("submit", function(event) {
-        event.preventDefault();
-
-        var titleInput = document.getElementById("newTitle").value;
-        var descriptionInput = document.getElementById("newDescription").value;
-        var sectionInput = document.getElementById("newSection").value;
-
-        var newCard = {
-            title: titleInput,
-            description: descriptionInput,
-            section: sectionInput
-        };
-
-        // Create a new card element and add it to the cards container
-        var cardElement = document.createElement("div");
-        cardElement.className = "card";
-        cardElement.id = "card-" + cardsContainer.childElementCount;
-        cardElement.innerHTML = "<h3>" + newCard.title + "</h3><p>" + newCard.description + "</p>";
-        cardsContainer.appendChild(cardElement);
-
-        // Clear the form inputs
-        addCardForm.reset();
-    });
-
-    updateCardForm.addEventListener("Update", function(event) {
-        event.preventDefault();
-
-        var updateTitleInput = document.getElementById("updateTitle").value;
-        var updateDescriptionInput = document.getElementById("updateDescription").value;
-        var updateSectionInput = document.getElementById("updateSection").value;
-
-        var selectedCard = document.querySelector(".card.selected");
-        if (selectedCard) {
-            var cardTitle = selectedCard.querySelector("h3");
-            var cardDescription = selectedCard.querySelector("p");
-
-            cardTitle.textContent = updateTitleInput;
-            cardDescription.textContent = updateDescriptionInput;
-            // Optionally, update the section as well
-
-            updateCardForm.reset();
+            fetch("http://localhost:8080/api/boards/1/cards", requestOptions)
+                .then(response => response.json())
+                .then(result => {
+                    console.log(result);
+                    location.reload();
+                })
+                .catch(error => console.log('error', error));
+            location.reload();
         }
-    });
 
-    cardsContainer.addEventListener("click", function(event) {
-        var clickedCard = event.target.closest(".card");
-        if (clickedCard) {
-            var selectedCard = cardsContainer.querySelector(".card.selected");
-            if (selectedCard) {
-                selectedCard.classList.remove("selected");
-            }
-            clickedCard.classList.add("selected");
 
-            // Populate the update form with the current card's information
-            var cardTitle = clickedCard.querySelector("h3").textContent;
-            var cardDescription = clickedCard.querySelector("p").textContent;
+        // Add event listeners to dropdown items and update selected section on click
+        document.getElementById("section1").addEventListener("click", () => handleDropdownItemClick(1));
+        document.getElementById("section2").addEventListener("click", () => handleDropdownItemClick(2));
+        document.getElementById("section3").addEventListener("click", () => handleDropdownItemClick(3));
+  
+        // Function to fetch the titles from the API
+        function getTitlesFromAPI() {
 
-            document.getElementById("updateTitle").value = cardTitle;
-            document.getElementById("updateDescription").value = cardDescription;
+            var requestOptions = {
+                method: 'GET',
+                redirect: 'follow'
+            };
+
+            fetch("http://localhost:8080/api/boards", requestOptions)
+                .then((response) => { return response.json() })
+                .then(
+                    (parsedResponse) => {
+
+                        parsedResponse.forEach(element => {
+                            let titleDiv = document.getElementById("main-title");
+                            titleDiv.innerHTML = element.title;
+                        });
+                    }
+                )
+                .catch(error => console.log('error', error));
         }
-    });
-});
 
+        window.addEventListener("load", function () {
+            getTitlesFromAPI();
+        });
+
+
+///////////////////////////////////////////////////////////////////////////
+// Function to update the main title
+function updateTitle() {
+    var myHeaders = new Headers();
+    myHeaders.append("Content-Type", "application/json");
+
+    const titleValue = document.getElementById('search').value;
+
+    var raw = JSON.stringify({
+        "title": titleValue
+    });
+
+    var requestOptions = {
+        method: 'PUT',
+        headers: myHeaders,
+        body: raw,
+    };
+
+    fetch("http://localhost:8080/api/boards/1", requestOptions)
+        .then(response => response.json())
+        .then(result => {
+            console.log(result);
+            const newTitle = titleValue.trim();
+            if (newTitle !== "") {
+                document.getElementById("main-title").textContent = newTitle;
+            }
+        })
+        .catch(error => console.log('error', error));
+}
+
+// Function to update the selected section
+function handleDropdownUpdateItemClick(sectionValue) {
+    selectedSectionUpdate = sectionValue;
+    document.getElementById("dropdownMenuButtonUpdate").textContent = "Section " + selectedSectionUpdate;
+}
+
+// Function to fetch cards and display them on the board
+function getCards() {
+    // ... your getCards function here ...
+}
+
+window.onload = function () {
+    getCards();
+
+    // Event listeners for section updates
+    document.getElementById("section1-update").addEventListener("click", () => handleDropdownUpdateItemClick(1));
+    document.getElementById("section2-update").addEventListener("click", () => handleDropdownUpdateItemClick(2));
+    document.getElementById("section3-update").addEventListener("click", () => handleDropdownUpdateItemClick(3));
+};
+
+       // Function to update the main title
+        function updateTitle() {
+            var myHeaders = new Headers();
+            myHeaders.append("Content-Type", "application/json");
+
+            const titleValue = document.getElementById('search').value; // Use 'search' instead of 'input-title'
+
+            var raw = JSON.stringify({
+                "title": titleValue
+            });
+
+            var requestOptions = {
+                method: 'PUT',
+                headers: myHeaders,
+                body: raw,
+            };
+
+            fetch("http://localhost:8080/api/boards/1", requestOptions)
+                .then(response => response.json())
+                .then(result => {
+                    console.log(result);
+                    const newTitle = titleValue.trim();
+                    if (newTitle !== "") {
+                        document.getElementById("main-title").textContent = newTitle;
+                    }
+                })
+                .catch(error => console.log('error', error));
+        }
+
+        // Update the event listener in the HTML form to match the function name
+        <button id="submit" type="button" class="btn btn-primary" onclick="updateTitle()">Update</button>
+        document.getElementById("section1-update").addEventListener("click", () => handleDropdownItemClick(1));
+        document.getElementById("section2-update").addEventListener("click", () => handleDropdownItemClick(2));
+        document.getElementById("section3-update").addEventListener("click", () => handleDropdownItemClick(3));
+
+                // // Event listener for the "SET" button click
+                setButton.addEventListener("click", function () {
+                    upadteTitle();
+                    // Get the value from the input text box
+                    const newTitle = inputTitle.value.trim();
+
+                    // Update the main title with the new value
+                    if (newTitle !== "") {
+                        mainTitle.textContent = newTitle;
+                    }
+            });

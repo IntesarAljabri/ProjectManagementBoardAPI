@@ -1,6 +1,6 @@
 package ProjectManagementBoardAPI.MyProject.Responce;
 
-import ProjectManagementBoardAPI.MyProject.Model.Card;
+import ProjectManagementBoardAPI.MyProject.Model.Board;
 import lombok.*;
 
 import java.util.ArrayList;
@@ -15,24 +15,10 @@ public class CardResponse {
     Integer id;
     String title;
     String description;
-    String section;
+    Integer section;
 
-    public static CardResponse convertRequestToResponse(Card cardRequest) {
-        return CardResponse.builder()
-                .id(cardRequest.getId())
-                .title(cardRequest.getTitle())
-                .description(cardRequest.getDescription())
-                .section(cardRequest.getSection())
-                .build();
+    public String getSectionName() {
+        return Board.getSectionName(this.section);
     }
 
-    public static List<CardResponse> convertRequestListToResponseList(List<Card> cardsRequest) {
-        List<CardResponse> cardResponseList = new ArrayList<>();
-        if (!cardsRequest.isEmpty()) {
-            for (Card cardRequest : cardsRequest) {
-                cardResponseList.add(convertRequestToResponse(cardRequest));
-            }
-        }
-        return cardResponseList;
-    }
 }

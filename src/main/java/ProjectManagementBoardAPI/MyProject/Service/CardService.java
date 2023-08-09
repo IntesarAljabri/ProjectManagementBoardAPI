@@ -1,6 +1,5 @@
 package ProjectManagementBoardAPI.MyProject.Service;
 
-import ProjectManagementBoardAPI.MyProject.Model.Board;
 import ProjectManagementBoardAPI.MyProject.Model.Card;
 import ProjectManagementBoardAPI.MyProject.Repository.CardRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,7 +17,6 @@ public class CardService {
         public Card addCard(Card card) {
             return cardRepository.save(card);
         }
-
 
         //get all Card
         public List<Card> getAllCard() {
@@ -38,25 +36,16 @@ public class CardService {
             return "Deleted  Successfully";
         }
 
-
         // Update information about card
-        public Board updateCard(Card updateData) {
-            Card card = cardRepository.findById(updateData.getId()).orElse(null);
-            if (card != null) {
-                if (updateData.getId() != null) {
-                    card.setId(updateData.getId());
-                }
-                if (updateData.getTitle() != null) {
-                    card.setTitle(updateData.getTitle());
-                }
-                if (updateData.getDescription() != null) {
-                    card.setTitle(updateData.getDescription());
-                }
-                if (updateData.getSection() != null) {
-                    card.setTitle(updateData.getSection());
-                }
-                return cardRepository.save(card).getBoard();
+        public Card updateCard(Card updatedCard) {
+            Card existingCard = cardRepository.findById(updatedCard.getId()).orElse(null);
+            if (existingCard == null) {
+                return null; // Card not found
             }
-            return null;
+            existingCard.setTitle(updatedCard.getTitle());
+            existingCard.setDescription(updatedCard.getDescription());
+            existingCard.setSection(updatedCard.getSection());
+
+            return cardRepository.save(existingCard);
         }
 }
