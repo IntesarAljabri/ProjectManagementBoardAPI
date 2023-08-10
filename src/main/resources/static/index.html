@@ -76,19 +76,13 @@
             text-decoration: underline;
         }
 
-        form,
-        body,
-        header,
-        main,
-        footer,
-        .footer-container,
+        form,body,header,main,footer,.footer-container,
         .control-panel {
             margin: 0;
             padding: 0;
         }
 
-        /* ... (Your other CSS styles for cards, columns, etc.) */
-
+    
         /* Style the footer container */
         .footer-container {
             display: flex;
@@ -135,7 +129,17 @@
             cursor: pointer;
             border-radius: 5px;
         }
+        .select{
+            width: 100%;
+            background-color: #eaeef3;
+            color: #0c0b0b;
+            border: none;
+            padding: 10px;
+            cursor: pointer;
+            border-radius: 5px;
 
+        }
+ 
         .form-group input[type="button"] {
             width: 100%;
             background-color: #007bff;
@@ -249,10 +253,7 @@
                 .catch(error => console.log('error', error));
         });
     </script>
-
-
-
-
+<!-- /////////////////////////// Update Board Titel ////////////////////////////// -->
     <script>
         function updateBoardTitle() {
             let updatedTitle = document.getElementById("newBoardTitle").value;
@@ -279,7 +280,7 @@
     </script>
 
 
-    <!-- //////////////////////////////////////////////////////////////////////////////    -->
+<!-- /////////////////////////// Create Card  ////////////////////////////// -->
     <div class="board">
         <div class="column" class="section" id="sectionToDo">
             <h2>To Do</h2>
@@ -314,7 +315,7 @@
                     </div>
                 </form>
             </div>
-            <div id="cardsContainer" class="cards-container">
+            <div  class="cards-container">
             </div>
             <script>
                 function createCard() {
@@ -352,19 +353,22 @@
                         .catch(error => console.log('error', error));
                 }
             </script>
-            <!-- ///////////////////////////////////////////////////////////////////////////////// -->
+<!-- /////////////////////////// Delete Card  ////////////////////////////// -->
             <br>
             <div class="control-panel">
                 <h5>Delete Card</h5>
-                <select id="deletesection" required>
+                <div class="form-group">
+                <select id="deletesection" name="select" required>
                     <option value="0">Select Card</option>
                 </select>
                 <br>
                 <br>
-                <div class="form-group">
                     <input id="submit" type="button" onclick="deleteCard()" value="Delete Card">
                 </div>
             </div>
+                <div class="cards-container">
+                </div>
+            
             <script>
                 function deleteCard() {
                     let deleteSelected = document.getElementById("deletesection").value;
@@ -383,10 +387,10 @@
                 }
             </script>
             <br>
-            <!-- /////////////////////////////////////////////////////////////////////////////// -->
-            <div class="update-card">
+<!-- /////////////////////////// Update Card Information ////////////////////////////// -->
+            <div class="control-panel">
                 <h5>Update Card Information</h5>
-                <form class="update-form" id="updateCardForm">
+                <div class="form-group">
                     <div class="form-group">
                         <input type="text" id="updateTitle" name="updateTitle" placeholder="Enter New Title">
                     </div>
@@ -406,9 +410,8 @@
                         <input id="submit" type="button" onclick="UpdateCard()" value="UpdateCard">
                     </div>
                 </form>
-            </div>
-            <div id="cardsContainer">
-            </div>
+                <div class="cards-container">
+                </div>
             <script>
                 function UpdateCard() {
                     let updatedId = document.getElementById("deletesection").value;
