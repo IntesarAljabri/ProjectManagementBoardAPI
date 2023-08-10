@@ -22,17 +22,16 @@ public class BoardController {
 
     // Add new board
     @PostMapping
-    public ResponseEntity<BoardResponse> createBoard(@RequestBody Board board) {
-        Board createdBoard = boardService.createBoard(board);
+    public BoardResponse createBoard(@RequestBody Board board) {
+        boardService.createBoard(board);
 
         // Map the createdBoard attributes to a new BoardResponse object
         BoardResponse boardResponse = new BoardResponse(
-                createdBoard.getId(),
-                createdBoard.getTitle(),
-                createdBoard.getColumns()
+                board.getId(),
+                board.getTitle()
         );
 
-        return new ResponseEntity<>(boardResponse, HttpStatus.CREATED);
+        return boardResponse;
     }
     //Get All Board
     @GetMapping

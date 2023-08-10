@@ -1,32 +1,27 @@
 package ProjectManagementBoardAPI.MyProject.Model;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
-import lombok.Data;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 
 @Setter
 @Getter
 @Entity
 @Data
 @NoArgsConstructor
+@AllArgsConstructor
 @Table(name = "cards")
 public class Card {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     Integer id;
+
     String title;
     String description;
     Integer section;
 
+    @JsonIgnore
     @ManyToOne
-    @JoinColumn(name = "board_id", nullable = false)
+    //@JoinColumn(name = "board_id")
     Board board;
-
-
-    // Getter for section name
-    public String getSectionName() {
-        return Board.getSectionName(this.section);
-    }
 }

@@ -17,15 +17,11 @@ public class BoardRequest {
     Integer Id;
     String title;
 
-
-    private Map<Integer, String> columns;
-
     public Board ConvertToBoard(){
         Board board = new Board();
 
         board.setId(this.getId());
         board.setTitle(this.getTitle());
-        board.setColumns(getColumns());
         return board;
     }
 

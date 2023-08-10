@@ -5,7 +5,7 @@ services:
     ports:
       - "9090:3306"
     environment:
-      MYSQL_ROOT_PASSWORD: sa
+      MYSQL_ROOT_PASSWORD: root
       MYSQL_DATABSE: BoardApi
       MYSQL_TCP_PORT: 3306
     restart: on-failure

@@ -16,6 +16,4 @@ public class BoardResponse {
     Integer id;
     String title;
 
-
-    private Map<Integer, String> columns;
 }

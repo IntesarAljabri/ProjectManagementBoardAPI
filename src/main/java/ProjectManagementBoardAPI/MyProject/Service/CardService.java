@@ -1,7 +1,10 @@
 package ProjectManagementBoardAPI.MyProject.Service;
 
+import ProjectManagementBoardAPI.MyProject.Model.Board;
 import ProjectManagementBoardAPI.MyProject.Model.Card;
+import ProjectManagementBoardAPI.MyProject.Repository.BoardRepository;
 import ProjectManagementBoardAPI.MyProject.Repository.CardRepository;
+import ProjectManagementBoardAPI.MyProject.Request.CardRequest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -13,14 +16,23 @@ public class CardService {
         @Autowired
         CardRepository cardRepository;
 
+        @Autowired
+        BoardService boardService;
+
         //add new Card
-        public Card addCard(Card card) {
+        public Card addCard(Integer boardId, Card card) {
+            Board board = boardService.getBoardById(boardId);
+            card.setBoard(board);
             return cardRepository.save(card);
         }
 
         //get all Card
-        public List<Card> getAllCard() {
-            return cardRepository.findAll();
+        public Card getCardByBoardIdAndCardID(Integer cardId, Integer boardID) {
+            return cardRepository.findByIdAndBoardId(cardId, boardID);
+        }
+
+        public List<Card> getAllCardsByBoard(Integer boardId){
+            return cardRepository.findByBoardId(boardId);
         }
 
 
@@ -37,15 +49,14 @@ public class CardService {
         }
 
         // Update information about card
-        public Card updateCard(Card updatedCard) {
-            Card existingCard = cardRepository.findById(updatedCard.getId()).orElse(null);
-            if (existingCard == null) {
-                return null; // Card not found
-            }
-            existingCard.setTitle(updatedCard.getTitle());
-            existingCard.setDescription(updatedCard.getDescription());
-            existingCard.setSection(updatedCard.getSection());
+        public Card updateCard(Integer cardId, Integer boardId, Card updatedCard) {
+            Card card = cardRepository.findByIdAndBoardId(cardId, boardId);
 
-            return cardRepository.save(existingCard);
+            card.setTitle(updatedCard.getTitle());
+            card.setDescription(updatedCard.getDescription());
+            card.setSection(updatedCard.getSection());
+
+            cardRepository.save(card);
+            return card;
         }
 }

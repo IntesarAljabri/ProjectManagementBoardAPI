@@ -15,16 +15,12 @@ public class Board {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     Integer id;
+
+
     String title;
 
-    @OneToMany
+    @OneToMany(mappedBy = "board")
     List<Card> cards;
-
-    @ElementCollection
-    @CollectionTable(name = "board_columns_mapping", joinColumns = @JoinColumn(name = "board_id"))
-    @MapKeyColumn(name = "column_index")
-    @Column(name = "column_name")
-    private Map<Integer, String> columns;
 
     public Board(Integer id) {
         this.id = id;
@@ -33,7 +29,6 @@ public class Board {
     public Board(Integer id, String title, Map<Integer, String> columns) {
         this.id = id;
         this.title = title;
-        this.columns = columns;
     }
 
     // Helper method to get section name by section index
