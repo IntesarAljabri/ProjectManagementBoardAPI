@@ -5,8 +5,6 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
-import java.util.ArrayList;
-import java.util.List;
 
 @Getter
 @Setter
@@ -17,7 +15,7 @@ public class CardRequest {
     String title;
     String description;
     Integer section;
-    
+
     public Card convertToCard(){
         Card card = new Card();
         card.setId(this.getId());

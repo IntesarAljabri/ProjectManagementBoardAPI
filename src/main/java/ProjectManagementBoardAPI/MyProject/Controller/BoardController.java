@@ -3,10 +3,7 @@ package ProjectManagementBoardAPI.MyProject.Controller;
 import ProjectManagementBoardAPI.MyProject.Model.Board;
 import ProjectManagementBoardAPI.MyProject.Responce.BoardResponse;
 import ProjectManagementBoardAPI.MyProject.Service.BoardService;
-import org.hibernate.sql.Delete;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
