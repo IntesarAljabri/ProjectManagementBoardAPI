@@ -8,6 +8,7 @@ import ProjectManagementBoardAPI.MyProject.Request.CardRequest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.Collections;
 import java.util.List;
 
 @Service
@@ -20,21 +21,36 @@ public class CardService {
         BoardService boardService;
 
         //add new Card
-        public Card addCard(Integer boardId, Card card) {
+    public Card addCard(Integer boardId, Card card) {
+        try {
             Board board = boardService.getBoardById(boardId);
             card.setBoard(board);
             return cardRepository.save(card);
+        } catch (Exception e) {
+            e.printStackTrace();
+            return null;
         }
+    }
 
-        //get all Card
-        public Card getCardByBoardIdAndCardID(Integer cardId, Integer boardID) {
+    //get all Card
+    public Card getCardByBoardIdAndCardID(Integer cardId, Integer boardID) {
+        try {
             return cardRepository.findByIdAndBoardId(cardId, boardID);
+        } catch (Exception e) {
+            e.printStackTrace();
+            return null;
         }
+    }
 
-        public List<Card> getAllCardsByBoard(Integer boardId){
+    public List<Card> getAllCardsByBoard(Integer boardId) {
+        try {
             return cardRepository.findByBoardId(boardId);
-        }
+        } catch (Exception e) {
+            e.printStackTrace();
 
+            return Collections.emptyList();
+        }
+    }
 
         //get Card by id
         public Card getCardById(Integer id) {
@@ -43,20 +59,34 @@ public class CardService {
 
 
         //delete Card
-        public String deleteCard(Integer id) {
+    public String deleteCard(Integer id) {
+        try {
             cardRepository.deleteById(id);
-            return "Deleted  Successfully";
+            return "Deleted Successfully";
+        } catch (Exception e) {
+            e.printStackTrace();
+            return "Error deleting the card";
         }
-
+    }
         // Update information about card
         public Card updateCard(Integer cardId, Integer boardId, Card updatedCard) {
-            Card card = cardRepository.findByIdAndBoardId(cardId, boardId);
+            try {
+                Card card = cardRepository.findByIdAndBoardId(cardId, boardId);
 
-            card.setTitle(updatedCard.getTitle());
-            card.setDescription(updatedCard.getDescription());
-            card.setSection(updatedCard.getSection());
+                if (card != null) {
+                    card.setTitle(updatedCard.getTitle());
+                    card.setDescription(updatedCard.getDescription());
+                    card.setSection(updatedCard.getSection());
 
-            cardRepository.save(card);
-            return card;
+                    cardRepository.save(card);
+                    return card;
+                } else {
+                    return null;
+                }
+            } catch (Exception e) {
+
+                e.printStackTrace();
+                return null;
+            }
         }
 }
