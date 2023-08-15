@@ -3,13 +3,9 @@ package ProjectManagementBoardAPI.MyProject.Service;
 import ProjectManagementBoardAPI.MyProject.Model.Board;
 import ProjectManagementBoardAPI.MyProject.Repository.BoardRepository;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PutMapping;
-import org.springframework.web.bind.annotation.RequestBody;
 
+import java.util.Collections;
 import java.util.List;
 
 @Service
@@ -19,32 +15,58 @@ public class BoardService {
     BoardRepository boardRepository;
 
     public Board createBoard(Board board) {
-        return boardRepository.save(board);
+        try {
+            return boardRepository.save(board);
+        } catch (Exception e) {
+            e.printStackTrace();
+            return null;
+        }
     }
 
+
     public List<Board> getAllBoard() {
-        return boardRepository.findAll();
+        try {
+            return boardRepository.findAll();
+        } catch (Exception e) {
+            e.printStackTrace();
+            return Collections.emptyList();
+        }
     }
 
     public Board getBoardById(Integer boardId) {
-        return boardRepository.findById(boardId).orElse(null);
-
+        try {
+            return boardRepository.findById(boardId).orElse(null);
+        } catch (Exception e) {
+            e.printStackTrace();
+            return null;
+        }
     }
-        // Delete Board
-        public String deleteBoardById(Integer boardid) {
-            boardRepository.deleteById(boardid);
+
+    // Delete Board
+    public String deleteBoardById(Integer boardId) {
+        try {
+            boardRepository.deleteById(boardId);
             return "Deleted Successfully";
+        } catch (Exception e) {
+            e.printStackTrace();
+            return "Error deleting the board";
         }
+    }
 
-        //Update Board
+    //Update Board
     public Board updateBoard(Long boardId, Board updatedBoard) {
-        Board existingBoard = boardRepository.findById(Math.toIntExact(boardId)).orElse(null);
-        if (existingBoard == null) {
-            return null; // Board not found
-        }
+        try {
+            Board existingBoard = boardRepository.findById(Math.toIntExact(boardId)).orElse(null);
+            if (existingBoard == null) {
+                return null;
+            }
+            existingBoard.setTitle(updatedBoard.getTitle());
+            return boardRepository.save(existingBoard);
+        } catch (Exception e) {
 
-        existingBoard.setTitle(updatedBoard.getTitle());
-        return boardRepository.save(existingBoard);
+            e.printStackTrace();
+        }
+        return updatedBoard;
     }
 }
     

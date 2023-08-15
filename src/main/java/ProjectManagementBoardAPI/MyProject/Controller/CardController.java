@@ -41,16 +41,16 @@ public class CardController {
 
 
        //Get All Card
-    @GetMapping
-    public List<Card> getAllCards(@PathVariable("boardId") Integer boardID) {
-        try {
-            List<Card> cards = cardService.getAllCardsByBoard(boardID);
-            return cards;
-        } catch (Exception e) {
+        @GetMapping
+        public List<Card> getAllCards(@PathVariable("boardId") Integer boardID) {
+            try {
+                List<Card> cards = cardService.getAllCardsByBoard(boardID);
+                return cards;
+            } catch (Exception e) {
 
-            e.printStackTrace();
-            return Collections.emptyList();
-        }
+                e.printStackTrace();
+                return Collections.emptyList();
+            }
     }
 
         //Get Card by Id

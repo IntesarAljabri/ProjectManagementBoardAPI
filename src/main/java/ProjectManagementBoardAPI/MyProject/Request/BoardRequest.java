@@ -19,7 +19,6 @@ public class BoardRequest {
 
     public Board ConvertToBoard(){
         Board board = new Board();
-
         board.setId(this.getId());
         board.setTitle(this.getTitle());
         return board;

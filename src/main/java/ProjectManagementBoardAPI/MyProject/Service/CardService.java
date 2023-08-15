@@ -2,9 +2,7 @@ package ProjectManagementBoardAPI.MyProject.Service;
 
 import ProjectManagementBoardAPI.MyProject.Model.Board;
 import ProjectManagementBoardAPI.MyProject.Model.Card;
-import ProjectManagementBoardAPI.MyProject.Repository.BoardRepository;
 import ProjectManagementBoardAPI.MyProject.Repository.CardRepository;
-import ProjectManagementBoardAPI.MyProject.Request.CardRequest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -69,7 +67,7 @@ public class CardService {
         }
     }
         // Update information about card
-        public Card updateCard(Integer cardId, Integer boardId, Card updatedCard) {
+    public Card updateCard(Integer cardId, Integer boardId, Card updatedCard) {
             try {
                 Card card = cardRepository.findByIdAndBoardId(cardId, boardId);
 

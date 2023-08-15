@@ -17,8 +17,7 @@ public class CardRequest {
     String title;
     String description;
     Integer section;
-
-
+    
     public Card convertToCard(){
         Card card = new Card();
         card.setId(this.getId());
