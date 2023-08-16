@@ -67,6 +67,7 @@ public class CardService {
         }
     }
         // Update information about card
+
     public Card updateCard(Integer cardId, Integer boardId, Card updatedCard) {
             try {
                 Card card = cardRepository.findByIdAndBoardId(cardId, boardId);

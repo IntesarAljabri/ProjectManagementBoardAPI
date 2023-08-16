@@ -123,14 +123,6 @@
             border-radius: 5px;
         }
       
-            /* width: 100%;
-            background-color:  #bbdaec;
-            color: #fff;
-            border: none;
-            padding: 10px;
-            cursor: pointer;
-            border-radius: 5px; */
-        
         .select{
             width: 100%;
             background-color: #eaeef3;
@@ -151,7 +143,27 @@
             cursor: pointer;
             border-radius: 5px;
         } 
-        
+        .header [type="text"]{
+
+            width: 25%;
+            padding: 5px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+
+
+        }
+        .header [type="button"]{
+            width:5%;
+            background-color:  #8bcdf3;
+            color: #fff;
+            border: none;
+            padding: 10px;
+            cursor: pointer;
+            border-radius: 5px;
+        }
+          .header [type="button"]:hover {
+          background-color: #ff0000; 
+       }
         .form-group input[type="button"]:hover {
           background-color: #ff0000; 
        }
@@ -159,6 +171,7 @@
 </head>
 
 <body>
+    <!-- //Get All Card // -->
     <script>
         var requestOptions = {
             method: 'GET',
@@ -221,9 +234,7 @@
             })
             .catch(error => console.log('error', error));
     </script>
-
     <div id="boardTitle" class="h1"></div>
-
     <header>
         <div class="header">
             <form id="Title">
