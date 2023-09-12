@@ -4,6 +4,8 @@ import ProjectManagementBoardAPI.MyProject.Model.Board;
 import ProjectManagementBoardAPI.MyProject.Responce.BoardResponse;
 import ProjectManagementBoardAPI.MyProject.Service.BoardService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
@@ -57,16 +59,20 @@ public class BoardController {
     }
 
 
-    //Get Board by id
     @GetMapping(value = "/{id}")
-    public Board getBoardById(@PathVariable Integer id) {
-        try {
-            return boardService.getBoardById(id);
-        } catch (Exception e) {
-            e.printStackTrace();
-            return null;
+    public ResponseEntity<Board> getBoardById(@PathVariable Integer id) {
+        Board board = boardService.getBoardById(id);
+
+        if (board == null) {
+            // Create a default board and save it
+            Board defaultBoard = new Board();
+            defaultBoard.setTitle("Default Board Title");
+            board = boardService.createBoard(defaultBoard);
+            return new ResponseEntity<>(board, HttpStatus.CREATED);
         }
+        return new ResponseEntity<>(board, HttpStatus.OK);
     }
+
 
     // Delete board by id
     @DeleteMapping("/{id}")
