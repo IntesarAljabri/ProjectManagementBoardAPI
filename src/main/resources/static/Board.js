@@ -1,112 +1,100 @@
-let url="http://localhost:8080";
+let url = "http://localhost:8080";
 const host = window.location.host;
 //Create defult board if database not has a board
-async function createDefaultBoard() {
-    const newBoard = {
-      title: 'Sprint Board 2023'
-    };
-    try {
-      const response = await fetch(url, {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json'
-        },
-        body: JSON.stringify(newBoard)
-      });
-      if (response.ok) {
-        const responseText = await response.text();  // Read the response as plain text
-        console.log('Response from server:', responseText);
-        // Update the select option with the new board
-        const boardSelect = document.getElementById('boardSelect');
-        const newBoardOption = document.createElement('option');
-        newBoardOption.textContent = newBoard.title;
-        newBoardOption.value = responseText;  // Assuming responseText contains the new board ID
-        boardSelect.appendChild(newBoardOption);
-        console.log('Default board created.');
-      } else {
-        throw new Error('Board creation failed');
-      }
-    } catch (error) {
-      console.error('Error creating default board:', error);
-    }
-  }
+var myHeaders = new Headers();
+myHeaders.append("Content-Type", "application/json");
 
+var raw = JSON.stringify({
+  "title": "NNNN"
+});
+
+var requestOptions = {
+  method: 'POST',
+  headers: myHeaders,
+  body: raw,
+  redirect: 'follow'
+};
+
+fetch("http://localhost:8080/api/boards", requestOptions)
+  .then(response => response.text())
+  .then(result => console.log(result))
+  .catch(error => console.log('error', error));
 ///////////////////////////////////////////////////////////////////////////////////////
 //get all card
-        var requestOptions = {
-            method: 'GET',
-            redirect: 'follow'
-        };
+var requestOptions = {
+    method: 'GET',
+    redirect: 'follow'
+};
 
-        fetch( url + "/api/boards/1/cards", requestOptions)
-            .then(response => response.json())
-            .then(result => {
-                result.forEach(api => {
+fetch(url + "/api/boards/1/cards", requestOptions)
+    .then(response => response.json())
+    .then(result => {
+        result.forEach(api => {
 
-                    let sectitonId = api.section;
-                    let boardDiv;
+            let sectitonId = api.section;
+            let boardDiv;
 
-                    if (sectitonId === 1) {
-                        boardDiv = document.getElementById("sectionToDo");
-                    }
-                    else if (sectitonId === 2) {
-                        boardDiv = document.getElementById("sectionInProgress");
-                    }
-                    else {
-                        boardDiv = document.getElementById("sectionDone");
-                    }
+            if (sectitonId === 1) {
+                boardDiv = document.getElementById("sectionToDo");
+            }
+            else if (sectitonId === 2) {
+                boardDiv = document.getElementById("sectionInProgress");
+            }
+            else {
+                boardDiv = document.getElementById("sectionDone");
+            }
 
-                    let cardDiv = document.createElement("div");
-                    cardDiv.className = "card";
-                    cardDiv.id = "card" + api.id;
+            let cardDiv = document.createElement("div");
+            cardDiv.className = "card";
+            cardDiv.id = "card" + api.id;
 
-                    let idDiv = document.createElement("div");
-                    idDiv.className = "idDiv";
-                    idDiv.id = "id" + api.id;
-                    idDiv.textContent = "#" + api.id;
+            let idDiv = document.createElement("div");
+            idDiv.className = "idDiv";
+            idDiv.id = "id" + api.id;
+            idDiv.textContent = "#" + api.id;
 
-                    let titleDiv = document.createElement("div");
-                    titleDiv.className = "titleDiv";
-                    titleDiv.id = "title-" + api.id;
-                    titleDiv.textContent = api.title;
+            let titleDiv = document.createElement("div");
+            titleDiv.className = "titleDiv";
+            titleDiv.id = "title-" + api.id;
+            titleDiv.textContent = api.title;
 
-                    let descriptionDiv = document.createElement("div");
-                    descriptionDiv.className = "descriptionDiv";
-                    descriptionDiv.id = "description-" + api.id;
-                    descriptionDiv.textContent = api.description;
+            let descriptionDiv = document.createElement("div");
+            descriptionDiv.className = "descriptionDiv";
+            descriptionDiv.id = "description-" + api.id;
+            descriptionDiv.textContent = api.description;
 
-                    cardDiv.appendChild(idDiv);
-                    cardDiv.appendChild(titleDiv);
-                    cardDiv.appendChild(descriptionDiv);
+            cardDiv.appendChild(idDiv);
+            cardDiv.appendChild(titleDiv);
+            cardDiv.appendChild(descriptionDiv);
 
-                    boardDiv.appendChild(cardDiv);
+            boardDiv.appendChild(cardDiv);
 
 
 
-                    let deleteSelection = document.getElementById("deletesection");
+            let deleteSelection = document.getElementById("deletesection");
 
-                    let optionSelect = document.createElement("option");
-                    optionSelect.id = "delete" + api.id;
-                    optionSelect.textContent = api.id;
+            let optionSelect = document.createElement("option");
+            optionSelect.id = "delete" + api.id;
+            optionSelect.textContent = api.id;
 
-                    deleteSelection.appendChild(optionSelect);
-                });
-            })
-            .catch(error => console.log('error', error));
-
-        document.addEventListener("DOMContentLoaded", function () {
-            let boardTitleElement = document.getElementById("boardTitle");
-
-            var requestOptions = {
-                method: 'GET',
-                redirect: 'follow'
-            };
-
-            fetch( url + "/api/boards/1", requestOptions)
-                .then(response => response.json())
-                .then(result => boardTitleElement.textContent = result.title)
-                .catch(error => console.log('error', error));
+            deleteSelection.appendChild(optionSelect);
         });
+    })
+    .catch(error => console.log('error', error));
+
+document.addEventListener("DOMContentLoaded", function () {
+    let boardTitleElement = document.getElementById("boardTitle");
+
+    var requestOptions = {
+        method: 'GET',
+        redirect: 'follow'
+    };
+
+    fetch(url + "/api/boards/1", requestOptions)
+        .then(response => response.json())
+        .then(result => boardTitleElement.textContent = result.title)
+        .catch(error => console.log('error', error));
+});
 
 
 //////////////////////////////////////////////////////////////////////////////////////////
@@ -127,7 +115,7 @@ function updateBoardTitle() {
         redirect: 'follow'
     };
 
-    fetch( url + "/api/boards/1", requestOptions)
+    fetch(url + "/api/boards/1", requestOptions)
         .then(response => response.text())
         .then(result => location.reload()
         )
@@ -164,7 +152,7 @@ function createCard() {
         body: raw
     };
 
-    fetch( url + "/api/boards/1/cards", requestOptions)
+    fetch(url + "/api/boards/1/cards", requestOptions)
         .then(response => response.json())
         .then(result => {
             console.log(result);
@@ -176,28 +164,28 @@ function createCard() {
 /////////////////////////////////////////////////////////////////////////////////////
 //Delete card
 
- function deleteCard() {
+function deleteCard() {
     let deleteSelected = document.getElementById("deletesection").value;
-       var requestOptions = {
-          method: 'DELETE',
-          redirect: 'follow'
-                    };
+    var requestOptions = {
+        method: 'DELETE',
+        redirect: 'follow'
+    };
 
-     fetch( url + "/api/boards/1/cards/" + deleteSelected, requestOptions)
-         .then(response => response.text())
-          .then(result => {
+    fetch(url + "/api/boards/1/cards/" + deleteSelected, requestOptions)
+        .then(response => response.text())
+        .then(result => {
             console.log(result);
-             location.reload();
-                        })
-     .catch(error => console.log('error', error));
-  }
- 
+            location.reload();
+        })
+        .catch(error => console.log('error', error));
+}
+
 ////////////////////////////////////////////////////////////////////////////////////////////
 //Update Card
 
-function UpdateCard(){
+function UpdateCard() {
     let updatedId = document.getElementById("deletesection").value;
-    
+
     let updatedTitle;
     if (document.getElementById("updateTitle").value === "") {
         updatedTitle = document.getElementById("title-" + updatedId).textContent;
@@ -236,7 +224,7 @@ function UpdateCard(){
         redirect: 'follow'
     };
 
-    fetch( url + "/api/boards/1/cards/" + updatedId, requestOptions)
+    fetch(url + "/api/boards/1/cards/" + updatedId, requestOptions)
         .then(response => response.text())
         .then(result => {
             console.log(result);
@@ -244,6 +232,6 @@ function UpdateCard(){
         })
         .catch(error => console.log('error', error));
 }
-              
+
 
 
