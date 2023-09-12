@@ -1,11 +1,44 @@
 let url="http://localhost:8080";
+const host = window.location.host;
+//Create defult board if database not has a board
+async function createDefaultBoard() {
+    const newBoard = {
+      title: 'Sprint Board 2023'
+    };
+    try {
+      const response = await fetch(url, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(newBoard)
+      });
+      if (response.ok) {
+        const responseText = await response.text();  // Read the response as plain text
+        console.log('Response from server:', responseText);
+        // Update the select option with the new board
+        const boardSelect = document.getElementById('boardSelect');
+        const newBoardOption = document.createElement('option');
+        newBoardOption.textContent = newBoard.title;
+        newBoardOption.value = responseText;  // Assuming responseText contains the new board ID
+        boardSelect.appendChild(newBoardOption);
+        console.log('Default board created.');
+      } else {
+        throw new Error('Board creation failed');
+      }
+    } catch (error) {
+      console.error('Error creating default board:', error);
+    }
+  }
+
+///////////////////////////////////////////////////////////////////////////////////////
 //get all card
         var requestOptions = {
             method: 'GET',
             redirect: 'follow'
         };
 
-        fetch("url/api/boards/1/cards", requestOptions)
+        fetch( url + "/api/boards/1/cards", requestOptions)
             .then(response => response.json())
             .then(result => {
                 result.forEach(api => {
@@ -69,14 +102,14 @@ let url="http://localhost:8080";
                 redirect: 'follow'
             };
 
-            fetch("url/api/boards/1", requestOptions)
+            fetch( url + "/api/boards/1", requestOptions)
                 .then(response => response.json())
                 .then(result => boardTitleElement.textContent = result.title)
                 .catch(error => console.log('error', error));
         });
 
 
-/////////////////////////////////////////////////////////////////////////////////////////////////
+//////////////////////////////////////////////////////////////////////////////////////////
 //Update Board titel
 function updateBoardTitle() {
     let updatedTitle = document.getElementById("newBoardTitle").value;
@@ -94,7 +127,7 @@ function updateBoardTitle() {
         redirect: 'follow'
     };
 
-    fetch("url/api/boards/1", requestOptions)
+    fetch( url + "/api/boards/1", requestOptions)
         .then(response => response.text())
         .then(result => location.reload()
         )
@@ -130,7 +163,7 @@ function createCard() {
         body: raw
     };
 
-    fetch("url/api/boards/1/cards", requestOptions)
+    fetch( url + "/api/boards/1/cards", requestOptions)
         .then(response => response.json())
         .then(result => {
             console.log(result);
@@ -139,31 +172,29 @@ function createCard() {
         .catch(error => console.log('error', error));
 }
 
-
-
-/////////////////////////////////////////////////////////////////////////////////
+/////////////////////////////////////////////////////////////////////////////////////
 //Delete card
 
-                function deleteCard() {
-                    let deleteSelected = document.getElementById("deletesection").value;
-                    var requestOptions = {
-                        method: 'DELETE',
-                        redirect: 'follow'
+ function deleteCard() {
+    let deleteSelected = document.getElementById("deletesection").value;
+       var requestOptions = {
+          method: 'DELETE',
+          redirect: 'follow'
                     };
 
-                    fetch("url/api/boards/1/cards/" + deleteSelected, requestOptions)
-                        .then(response => response.text())
-                        .then(result => {
-                            console.log(result);
-                            location.reload();
+     fetch( url + "/api/boards/1/cards/" + deleteSelected, requestOptions)
+         .then(response => response.text())
+          .then(result => {
+            console.log(result);
+             location.reload();
                         })
-                        .catch(error => console.log('error', error));
-                }
+     .catch(error => console.log('error', error));
+  }
  
 ////////////////////////////////////////////////////////////////////////////////////////////
 //Update Card
 
-function UpdateCard() {
+function UpdateCard(){
     let updatedId = document.getElementById("deletesection").value;
     
     let updatedTitle;
@@ -204,7 +235,7 @@ function UpdateCard() {
         redirect: 'follow'
     };
 
-    fetch("url/api/boards/1/cards/" + updatedId, requestOptions)
+    fetch( url + "/api/boards/1/cards/" + updatedId, requestOptions)
         .then(response => response.text())
         .then(result => {
             console.log(result);
