@@ -138,6 +138,7 @@ function updateBoardTitle() {
 /////////////////////////////////////////////////////////////////////////////////////////////
 //Create new card
 function createCard() {
+    console.log("New card created!")
     let cardTitle = document.getElementById("newTitle").value;
     let cardDescription = document.getElementById("newDescription").value;
     let cardSection = document.getElementById("newsection").value;
