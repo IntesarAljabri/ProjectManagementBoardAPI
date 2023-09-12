@@ -7,7 +7,7 @@ var requestOptions = {
     redirect: 'follow'
 };
 
-fetch(`http://${localhost}/api/boards/1/cards/`, requestOptions)
+fetch(`http://${localhost}/api/boards/1/cards`, requestOptions)
     .then(response => response.json())
     .then(result => {
         result.forEach(api => {
