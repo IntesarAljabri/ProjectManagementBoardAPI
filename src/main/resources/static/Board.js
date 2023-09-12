@@ -1,11 +1,11 @@
-let url = "http://localhost:8080";
-const host = window.location.host;
-//Create defult board if database not has a board
+
+const localhost = window.location.host;
+
 var myHeaders = new Headers();
 myHeaders.append("Content-Type", "application/json");
 
 var raw = JSON.stringify({
-  "title": "NNNN"
+  "title": "Spring Boat 2023"
 });
 
 var requestOptions = {
@@ -15,7 +15,7 @@ var requestOptions = {
   redirect: 'follow'
 };
 
-fetch("http://localhost:8080/api/boards", requestOptions)
+fetch(`http://${localhost}/api/boards`, requestOptions)
   .then(response => response.text())
   .then(result => console.log(result))
   .catch(error => console.log('error', error));
@@ -26,7 +26,7 @@ var requestOptions = {
     redirect: 'follow'
 };
 
-fetch(url + "/api/boards/1/cards", requestOptions)
+fetch(`http://${localhost}/api/boards/1/cards/`, requestOptions)
     .then(response => response.json())
     .then(result => {
         result.forEach(api => {
@@ -90,7 +90,7 @@ document.addEventListener("DOMContentLoaded", function () {
         redirect: 'follow'
     };
 
-    fetch(url + "/api/boards/1", requestOptions)
+    fetch( `http://${localhost}/api/boards/1`, requestOptions)
         .then(response => response.json())
         .then(result => boardTitleElement.textContent = result.title)
         .catch(error => console.log('error', error));
@@ -114,8 +114,8 @@ function updateBoardTitle() {
         body: raw,
         redirect: 'follow'
     };
-
-    fetch(url + "/api/boards/1", requestOptions)
+   
+    fetch( `http://${localhost}/api/boards/1`, requestOptions)
         .then(response => response.text())
         .then(result => location.reload()
         )
@@ -152,7 +152,7 @@ function createCard() {
         body: raw
     };
 
-    fetch(url + "/api/boards/1/cards", requestOptions)
+    fetch(`http://${localhost}/api/boards/1/cards`, requestOptions)
         .then(response => response.json())
         .then(result => {
             console.log(result);
@@ -171,7 +171,7 @@ function deleteCard() {
         redirect: 'follow'
     };
 
-    fetch(url + "/api/boards/1/cards/" + deleteSelected, requestOptions)
+    fetch(`http://${localhost}/api/boards/1/cards/` + deleteSelected, requestOptions)
         .then(response => response.text())
         .then(result => {
             console.log(result);
@@ -224,7 +224,7 @@ function UpdateCard() {
         redirect: 'follow'
     };
 
-    fetch(url + "/api/boards/1/cards/" + updatedId, requestOptions)
+    fetch(`http://${localhost}/api/boards/1/cards/` + updatedId, requestOptions)
         .then(response => response.text())
         .then(result => {
             console.log(result);
